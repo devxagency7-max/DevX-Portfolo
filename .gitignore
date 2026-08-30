@@ -11,3 +11,6 @@ dist-ssr
 *.log
 
 .claude/
+
+.vercel
+.env*
