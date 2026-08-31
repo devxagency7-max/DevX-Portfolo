@@ -39,51 +39,60 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md animate-fadeIn">
       <div
-        className="relative w-full max-w-md p-8 rounded-3xl shadow-2xl flex flex-col gap-6"
+        className="relative w-full max-w-md p-8 rounded-3xl shadow-2xl flex flex-col gap-6 transition-all border"
         style={{
-          background: '#0C0C10',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 0 60px rgba(99, 102, 241, 0.2)',
-          color: '#F0F0F5'
+          background: 'var(--bg-card, #0F0F12)',
+          borderColor: 'var(--border-strong, rgba(255, 255, 255, 0.12))',
+          boxShadow: '0 20px 60px -10px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.15)',
+          color: 'var(--text-main, #FFFFFF)'
         }}
       >
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+          type="button"
+          aria-label="Close modal"
+          className="absolute top-6 right-6 p-2 rounded-xl text-[var(--text-muted,#A1A1AA)] hover:text-[var(--text-main,#FFFFFF)] hover:bg-white/10 transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
 
-        {/* Header Icon */}
-        <div className="flex flex-col items-center text-center gap-3">
+        {/* Header Icon & Title */}
+        <div className="flex flex-col items-center text-center gap-3 pt-2">
           <div
             className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
             style={{
-              background: 'rgba(99, 102, 241, 0.12)',
-              border: '1px solid rgba(99, 102, 241, 0.3)',
+              background: 'rgba(99, 102, 241, 0.15)',
+              border: '1px solid rgba(99, 102, 241, 0.35)',
               color: '#6366F1'
             }}
           >
-            <Lock className="w-8 h-8" />
+            <Lock className="w-8 h-8 text-[#6366F1]" />
           </div>
+
           <div>
-            <h2 className="font-display font-bold text-2xl text-white">CMS Admin Authentication</h2>
-            <p className="text-xs text-zinc-400 font-mono mt-1">
+            <h2 className="font-display font-extrabold text-2xl tracking-tight text-[var(--text-main,#FFFFFF)]">
+              CMS Admin Authentication
+            </h2>
+            <p className="text-xs font-mono text-[var(--text-muted,#A1A1AA)] mt-1.5 tracking-wider uppercase">
               Dev Smart X Restricted Management Panel
             </p>
           </div>
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-2">
+          
+          {/* Email Field */}
           <div>
-            <label className="form-label font-mono text-xs text-zinc-300">Email</label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3.5" />
+            <label className="font-mono text-[11px] font-semibold tracking-wider text-[var(--text-muted,#A1A1AA)] uppercase mb-1.5 block">
+              EMAIL ADDRESS
+            </label>
+            <div className="relative flex items-center">
+              <Mail className="w-4 h-4 text-[var(--text-dim,#71717A)] absolute left-4 pointer-events-none" />
               <input
                 type="email"
                 required
@@ -91,56 +100,61 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 value={email}
                 onChange={e => { setEmail(e.target.value); setError(false); }}
                 placeholder="admin@devsmartx.com"
-                className="form-input pl-10 text-sm font-mono"
+                className="w-full pl-11 pr-4 py-3.5 rounded-xl font-mono text-sm outline-none transition-all border"
                 style={{
-                  background: '#13131A',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  color: '#F0F0F5'
+                  background: 'var(--bg-secondary, #14141B)',
+                  borderColor: 'var(--border-hairline, rgba(255, 255, 255, 0.12))',
+                  color: 'var(--text-main, #FFFFFF)'
                 }}
               />
             </div>
           </div>
 
+          {/* Password Field */}
           <div>
-            <label className="form-label font-mono text-xs text-zinc-300">Password</label>
-            <div className="relative">
-              <KeyRound className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3.5" />
+            <label className="font-mono text-[11px] font-semibold tracking-wider text-[var(--text-muted,#A1A1AA)] uppercase mb-1.5 block">
+              PASSWORD
+            </label>
+            <div className="relative flex items-center">
+              <KeyRound className="w-4 h-4 text-[var(--text-dim,#71717A)] absolute left-4 pointer-events-none" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={e => { setPassword(e.target.value); setError(false); }}
                 placeholder="••••••••••••"
-                className="form-input pl-10 text-sm tracking-widest font-mono"
+                className="w-full pl-11 pr-4 py-3.5 rounded-xl font-mono text-sm tracking-widest outline-none transition-all border"
                 style={{
-                  background: '#13131A',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  color: '#F0F0F5'
+                  background: 'var(--bg-secondary, #14141B)',
+                  borderColor: 'var(--border-hairline, rgba(255, 255, 255, 0.12))',
+                  color: 'var(--text-main, #FFFFFF)'
                 }}
               />
             </div>
           </div>
 
+          {/* Error Message Alert */}
           {error && (
             <div
-              className="p-3 rounded-xl text-xs font-mono flex items-center gap-2"
+              className="p-3.5 rounded-xl text-xs font-mono flex items-center gap-2.5"
               style={{
                 background: 'rgba(239, 68, 68, 0.12)',
                 border: '1px solid rgba(239, 68, 68, 0.3)',
                 color: '#EF4444'
               }}
             >
-              <ShieldAlert className="w-4 h-4 shrink-0" />
+              <ShieldAlert className="w-4 h-4 shrink-0 text-red-500" />
               <span>{errorMessage}</span>
             </div>
           )}
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="editorial-btn w-full justify-center py-3 text-sm mt-2 disabled:opacity-60"
+            className="w-full py-3.5 px-6 rounded-xl font-mono text-xs font-bold tracking-widest uppercase text-white bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#5548E0] hover:to-[#7C3AED] shadow-lg shadow-indigo-500/25 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-2"
           >
-            {isSubmitting ? 'Authenticating…' : 'Authenticate Session'}
+            {isSubmitting ? 'AUTHENTICATING SESSION…' : 'AUTHENTICATE SESSION'}
           </button>
         </form>
 
