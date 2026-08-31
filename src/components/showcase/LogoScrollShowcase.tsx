@@ -130,7 +130,7 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
   const logoY = useTransform(heroProgress, [0, 1], [-140, 0]);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-[#050507]">
+    <div ref={containerRef} className="relative w-full transition-colors duration-500 bg-[var(--bg-primary)]">
 
       {/* Ambient aurora backdrop spanning the whole showcase */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -218,7 +218,7 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-zinc-400 text-base md:text-xl font-normal max-w-xl leading-relaxed"
+          className="text-[var(--text-muted)] text-base md:text-xl font-normal max-w-xl leading-relaxed"
         >
           Products, platforms, experiments and ideas engineered through technology, design and AI.
         </motion.p>
@@ -227,8 +227,8 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
 
       {/* Section Label */}
       <div id="work" className="w-full max-w-5xl mx-auto px-6 pb-16 text-center flex flex-col items-center justify-center">
-        <span className="tech-label text-indigo-400 tracking-[0.2em] font-bold block w-full text-center" style={{ textAlign: 'center' }}>SELECTED WORK</span>
-        <h2 className="subheadline mt-3 text-white block w-full text-center" style={{ textAlign: 'center' }}>BUILT. SHIPPED. EXPERIENCED.</h2>
+        <span className="tech-label text-indigo-500 dark:text-indigo-400 tracking-[0.2em] font-bold block w-full text-center" style={{ textAlign: 'center' }}>SELECTED WORK</span>
+        <h2 className="subheadline mt-3 block w-full text-center" style={{ textAlign: 'center', color: 'var(--text-main)' }}>BUILT. SHIPPED. EXPERIENCED.</h2>
       </div>
 
       {/* Project Track */}
@@ -290,17 +290,17 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project, index, logoOnRight, on
         marginRight: 'auto',
       }}
     >
-      <div className="flex items-center justify-between font-mono text-xs text-zinc-500 uppercase tracking-widest">
-        <span className="text-2xl font-bold font-display" style={{ color: '#4A4A5A' }}>{num}</span>
-        <span className="text-zinc-600">{project.category} • {project.year}</span>
+      <div className="flex items-center justify-between font-mono text-xs text-[var(--text-muted)] uppercase tracking-widest">
+        <span className="text-2xl font-bold font-display" style={{ color: 'var(--text-dim)' }}>{num}</span>
+        <span className="text-[var(--text-muted)]">{project.category} • {project.year}</span>
       </div>
 
       <div
-        className="relative w-full aspect-[16/10] overflow-hidden shadow-2xl"
+        className="relative w-full aspect-[16/10] overflow-hidden shadow-2xl rounded-lg"
         style={{
-          border: '1px solid rgba(255,255,255,0.07)',
-          background: '#0C0C10',
-          boxShadow: '0 0 0 1px rgba(99,102,241,0), 0 24px 60px rgba(0,0,0,0.7)',
+          border: '1px solid var(--border-hairline)',
+          background: 'var(--bg-secondary)',
+          boxShadow: '0 0 0 1px rgba(99,102,241,0), 0 24px 60px rgba(0,0,0,0.15)',
           transition: 'box-shadow 0.5s ease',
         }}
       >
@@ -316,18 +316,18 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project, index, logoOnRight, on
         )}
       </div>
 
-      <div className="flex flex-col gap-2 pb-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="flex flex-col gap-2 pb-6" style={{ borderBottom: '1px solid var(--border-hairline)' }}>
         <h3 className="font-display font-extrabold text-2xl md:text-4xl transition-colors flex items-center justify-between"
-          style={{ color: '#F0F0F5' }}
+          style={{ color: 'var(--text-main)' }}
         >
           <span className="group-hover:text-transparent group-hover:bg-clip-text transition-all duration-300"
             style={{ backgroundImage: 'linear-gradient(135deg,#6366F1,#A855F7)', WebkitBackgroundClip: 'text' } as React.CSSProperties}
           >
             {project.title}
           </span>
-          <ArrowUpRight className="w-6 h-6 text-zinc-600 group-hover:text-[#6366F1] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all shrink-0" />
+          <ArrowUpRight className="w-6 h-6 text-[var(--text-muted)] group-hover:text-[#6366F1] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all shrink-0" />
         </h3>
-        <p className="text-zinc-500 text-sm md:text-base font-normal line-clamp-2 leading-relaxed max-w-xl">
+        <p className="text-[var(--text-muted)] text-sm md:text-base font-normal line-clamp-2 leading-relaxed max-w-xl">
           {project.shortDescription}
         </p>
       </div>

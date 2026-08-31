@@ -18,7 +18,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const orderedProjects = featuredProject ? [featuredProject, ...restProjects] : projects;
 
   return (
-    <div className="w-full bg-[#FBFBF9] text-[#0F0F11]">
+    <div className="w-full bg-[var(--bg-primary)] text-[var(--text-main)] transition-colors duration-500">
       {/* Sticky 3D Logo + Alternating Project Showcase */}
       <LogoScrollShowcase
         projects={orderedProjects}

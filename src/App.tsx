@@ -3,7 +3,9 @@ import { Project, Category } from './types/project';
 import { projectService } from './services/projectService';
 import { authService } from './services/authService';
 import { CustomCursor } from './components/ui/CustomCursor';
+import { DevXParticles } from './components/ui/DevXParticles';
 import { Navbar } from './components/navigation/Navbar';
+import { Footer } from './components/navigation/Footer';
 import { HomePage } from './pages/HomePage';
 import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { AdminDashboard } from './components/admin/AdminDashboard';
@@ -26,6 +28,26 @@ export const App: React.FC = () => {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   
   const [isCategoryManagerOpen, setIsCategoryManagerOpen] = useState(false);
+
+  // Theme Mode (Dark / Light) State
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('devx_theme') as 'dark' | 'light') || 'dark';
+  });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+      document.body.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+      document.body.classList.remove('light');
+    }
+    localStorage.setItem('devx_theme', theme);
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   // Initialize Lenis smooth scroll with fallback
   useEffect(() => {
@@ -107,7 +129,13 @@ export const App: React.FC = () => {
   const selectedProject = projects.find(p => p.slug === selectedProjectSlug || p.id === selectedProjectSlug);
 
   return (
-    <div className="min-h-screen bg-[#050507] text-[#F0F0F5] flex flex-col font-body selection:bg-[#6366F1] selection:text-white">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] transition-colors duration-500 flex flex-col font-body selection:bg-[#6366F1] selection:text-white relative">
+
+      {/* Floating Interactive DevX Blue Dots / Particles */}
+      <DevXParticles />
+
+      {/* Custom Cursor */}
+      <CustomCursor />
 
       {/* Editorial Sticky Navigation (Hidden on Admin Tab) */}
       {activeTab !== 'admin' && (
@@ -120,11 +148,13 @@ export const App: React.FC = () => {
           }}
           onOpenAdmin={handleOpenAdmin}
           isAdminLoggedIn={isAdminLoggedIn}
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
         />
       )}
 
       {/* Main Content Router */}
-      <main className="flex-grow">
+      <main className="flex-grow z-10 relative">
         {selectedProject ? (
           <ProjectDetailPage
             project={selectedProject}
@@ -171,6 +201,17 @@ export const App: React.FC = () => {
         )}
       </main>
 
+      {/* Footer */}
+      {activeTab !== 'admin' && (
+        <Footer
+          onNavigate={tab => {
+            setSelectedProjectSlug(null);
+            setActiveTab(tab as any);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onOpenAdmin={handleOpenAdmin}
+        />
+      )}
 
       {/* ADMIN CMS MODALS */}
       <AdminLoginModal
@@ -183,7 +224,7 @@ export const App: React.FC = () => {
         isOpen={isProjectEditorOpen}
         project={editingProject}
         categories={categories}
-        onClose={() => setIsProjectEditorOpen(false)}
+        onClose={() => setIsCategoryManagerOpen(false)}
         onSave={handleSaveProject}
       />
 

@@ -28,10 +28,9 @@ export const LogoPlate: React.FC<LogoPlateProps> = ({ variant = 'wide', glow = t
           src={LOGO_SRC}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-contain p-1"
+          className="devx-logo-img absolute inset-0 w-full h-full object-contain p-1"
           style={{
             transform: `translateZ(${-i * 1.5}px)`,
-            filter: `brightness(0) invert(1) opacity(${i === 0 ? 1 : 0.6}) drop-shadow(0 0 10px rgba(99, 102, 241, 0.3))`,
             opacity: i === 0 ? 1 : 0.5,
           }}
           draggable={false}
@@ -42,12 +41,11 @@ export const LogoPlate: React.FC<LogoPlateProps> = ({ variant = 'wide', glow = t
       <img
         src={LOGO_SRC}
         alt="Dev Smart X logo"
-        className={`absolute inset-0 w-full h-full object-contain p-1 ${
-          glow ? 'drop-shadow-[0_0_35px_rgba(99,102,241,0.6)]' : ''
+        className={`devx-logo-img absolute inset-0 w-full h-full object-contain p-1 ${
+          glow ? 'devx-logo-glow' : ''
         }`}
         style={{
           transform: 'translateZ(8px)',
-          filter: 'brightness(0) invert(1)',
         }}
         draggable={false}
       />

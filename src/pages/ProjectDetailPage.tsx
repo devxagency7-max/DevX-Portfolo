@@ -34,7 +34,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen text-white pt-28 pb-24 px-6 md:px-12" style={{ background: '#050507' }}>
+    <div className="min-h-screen pt-28 pb-24 px-6 md:px-12 transition-colors duration-500" style={{ background: 'var(--bg-primary)', color: 'var(--text-main)' }}>
       
       {/* Lightbox for gallery */}
       <ImageLightbox
@@ -49,7 +49,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         {/* Back Button */}
         <button
           onClick={onBack}
-          className="self-start inline-flex items-center gap-2 text-xs font-mono text-zinc-400 font-bold uppercase hover:text-indigo-400 transition-colors py-2"
+          className="self-start inline-flex items-center gap-2 text-xs font-mono text-[var(--text-muted)] font-bold uppercase hover:text-indigo-400 transition-colors py-2"
         >
           <ArrowLeft className="w-4 h-4" />
           RETURN TO EXHIBITION ARCHIVE
@@ -57,7 +57,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
         {/* HERO SECTION */}
         <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-4 font-mono text-xs text-zinc-400 uppercase tracking-widest">
+          <div className="flex items-center gap-4 font-mono text-xs text-[var(--text-muted)] uppercase tracking-widest">
             <span className="text-indigo-400 font-bold">{project.category}</span>
             <span>•</span>
             <span>{project.projectType}</span>
@@ -65,11 +65,11 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <span className="text-emerald-400 font-bold">STATUS: {project.status}</span>
           </div>
 
-          <h1 className="font-display font-extrabold text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+          <h1 className="font-display font-extrabold text-[var(--text-main)] text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
             {project.title}
           </h1>
 
-          <p className="text-zinc-300 text-lg md:text-2xl font-normal leading-relaxed max-w-4xl">
+          <p className="text-[var(--text-muted)] text-lg md:text-2xl font-normal leading-relaxed max-w-4xl">
             {project.shortDescription}
           </p>
 

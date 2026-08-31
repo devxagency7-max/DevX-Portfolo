@@ -34,6 +34,60 @@
   --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* LIGHT MODE VARIABLES OVERRIDES */
+html.light, body.light, [data-theme="light"] {
+  --bg-primary: #F4F6FB;
+  --bg-secondary: #EBF0F7;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-dark: #F4F6FB;
+
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --text-dim: #64748B;
+
+  --border-hairline: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --border-glow: rgba(99, 102, 241, 0.35);
+
+  background-color: var(--bg-primary) !important;
+  color: var(--text-main) !important;
+}
+
+html.light ::-webkit-scrollbar-track { background: #F4F6FB; }
+
+html.light .glass-card,
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+}
+
+html.light .form-input {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #0F172A;
+}
+
+html.light .form-input option {
+  background: #FFFFFF;
+  color: #0F172A;
+}
+
+html.light .modal-overlay {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+html.light .hero-grid {
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+}
+
+html.light .hero-aurora-1 { opacity: 0.25; }
+html.light .hero-aurora-2 { opacity: 0.25; }
+html.light .hero-aurora-3 { opacity: 0.2; }
+
 @layer base {
   * {
     margin: 0;
@@ -339,6 +393,24 @@ h1, h2, h3, h4, .font-display {
   background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.5), transparent 70%);
   filter: blur(18px);
   border-radius: 9999px;
+}
+
+/* DEVX LOGO THEME ADAPTATION */
+.devx-logo-img {
+  filter: brightness(0) invert(1);
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.devx-logo-glow {
+  filter: brightness(0) invert(1) drop-shadow(0 0 35px rgba(99, 102, 241, 0.6));
+}
+
+html.light .devx-logo-img {
+  filter: brightness(0) drop-shadow(0 0 1px rgba(15, 23, 42, 0.8));
+}
+
+html.light .devx-logo-glow {
+  filter: brightness(0) drop-shadow(0 0 30px rgba(99, 102, 241, 0.45));
 }
 
 /* Project card glow on hover */
