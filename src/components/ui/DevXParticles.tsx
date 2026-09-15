@@ -37,9 +37,13 @@ export const DevXParticles: React.FC<DevXParticlesProps> = ({ className = '' }) 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Skip the animated canvas entirely for users who've asked for reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     let animationFrameId: number;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
+    let isMobile = width < 768;
 
     // Mouse coordinates for subtle interactive drift
     let mouse = { x: -1000, y: -1000, radius: 160 };
@@ -60,6 +64,7 @@ export const DevXParticles: React.FC<DevXParticlesProps> = ({ className = '' }) 
       if (!canvas) return;
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      isMobile = width < 768;
       initParticles();
     };
 
@@ -72,8 +77,10 @@ export const DevXParticles: React.FC<DevXParticlesProps> = ({ className = '' }) 
 
     const initParticles = () => {
       particles = [];
-      // Calculate count based on viewport area
-      const count = Math.min(75, Math.max(35, Math.floor((width * height) / 22000)));
+      // Calculate count based on viewport area (kept low on mobile for real-device smoothness)
+      const count = isMobile
+        ? Math.min(24, Math.max(14, Math.floor((width * height) / 22000)))
+        : Math.min(75, Math.max(35, Math.floor((width * height) / 22000)));
 
       for (let i = 0; i < count; i++) {
         const palette = DEVX_BLUE_PALETTE[Math.floor(Math.random() * DEVX_BLUE_PALETTE.length)];
@@ -101,21 +108,24 @@ export const DevXParticles: React.FC<DevXParticlesProps> = ({ className = '' }) 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw faint blue connecting vectors for nearby particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      // Draw faint blue connecting vectors for nearby particles.
+      // This is O(n²) so it's skipped on mobile, where it's the main jank/battery cost.
+      if (!isMobile) {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 130) {
-            const lineAlpha = (1 - dist / 130) * 0.18;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 210, 255, ${lineAlpha})`;
-            ctx.lineWidth = 0.75;
-            ctx.stroke();
+            if (dist < 130) {
+              const lineAlpha = (1 - dist / 130) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(0, 210, 255, ${lineAlpha})`;
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
           }
         }
       }

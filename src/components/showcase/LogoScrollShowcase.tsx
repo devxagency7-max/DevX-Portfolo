@@ -184,8 +184,19 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
       {/* HERO: Big Centered 3D Logo + Headline */}
       <div ref={heroRef} className="min-h-screen flex flex-col items-center justify-center gap-10 py-24 px-6 text-center relative">
 
-        {/* Placeholder for the sticky traveling logo to occupy while at the top */}
-        <div className="w-full max-w-[420px] md:max-w-[520px] h-[180px] md:h-[238px] pointer-events-none" />
+        {/* Placeholder for the sticky traveling logo to occupy while at the top (desktop only) */}
+        <div className="hidden md:block w-full max-w-[520px] h-[238px] pointer-events-none" />
+
+        {/* Static logo mark for mobile, where the traveling sticky logo is disabled */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="md:hidden relative w-full max-w-[280px]"
+        >
+          <div className="hero-logo-shadow" />
+          <LogoPlate variant="wide" glow={true} className="w-full h-full" />
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: -10 }}

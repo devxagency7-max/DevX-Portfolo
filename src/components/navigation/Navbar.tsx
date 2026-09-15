@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Lock, ShieldCheck, Sun, Moon } from 'lucide-react';
 
 interface NavbarProps {
@@ -18,8 +18,52 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const isLight = theme === 'light';
 
+  // On mobile, the fixed corner controls can end up sitting right on top of
+  // full-width scrolling content (cards, tags, text). Rather than leaving them
+  // permanently overlapping, hide them while scrolling down and bring them back
+  // on scroll-up or near the top — desktop is untouched (plenty of margin there).
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+
+    const handleScroll = () => {
+      if (window.innerWidth >= 768) {
+        setHidden(false);
+        return;
+      }
+      const currentY = window.scrollY;
+      const scrolledDown = currentY > lastY + 4;
+      const scrolledUp = currentY < lastY - 4;
+
+      if (currentY < 60) {
+        setHidden(false);
+      } else if (scrolledDown) {
+        setHidden(true);
+      } else if (scrolledUp) {
+        setHidden(false);
+      }
+      lastY = currentY;
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setHidden(false);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-6 md:p-8">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 pointer-events-none p-6 md:p-8 transition-transform duration-300 ease-out ${
+        hidden ? '-translate-y-24 opacity-0' : 'translate-y-0 opacity-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-end">
 
         {/* Floating Top Right Controls (Light/Dark Toggle & CMS Lock) */}

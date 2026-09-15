@@ -65,7 +65,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <span className="text-emerald-400 font-bold">STATUS: {project.status}</span>
           </div>
 
-          <h1 className="font-display font-extrabold text-[var(--text-main)] text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+          <h1 className="font-display font-extrabold text-[var(--text-main)] text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             {project.title}
           </h1>
 
