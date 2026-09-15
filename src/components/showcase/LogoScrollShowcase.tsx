@@ -94,13 +94,14 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
 
   // Dynamically calculate logoWidth & cardWidth to guarantee wide centered cards & 100% visibility of 3D logo
   const availHalfWidth = Math.max(320, trackWidth / 2 - 24);
-  const logoWidth = availHalfWidth < 520 ? 180 : 210;
+  const isMobile = trackWidth < 768;
+  const logoWidth = isMobile ? 140 : (availHalfWidth < 520 ? 180 : 210);
 
   const cardWidth = Math.min(720, Math.max(320, trackWidth > 900 ? 640 : trackWidth - 40));
   const cardHalfWidth = cardWidth / 2;
 
-  // Keep the small logo tile close beside the card, not out in empty space
-  const restOffsetPx = cardHalfWidth + 24 + logoWidth / 2;
+  // On mobile, the logo sits at the edge of the screen and behind the cards
+  const restOffsetPx = isMobile ? Math.max(0, trackWidth / 2 - logoWidth / 2 - 16) : (cardHalfWidth + 24 + logoWidth / 2);
 
   // Build keyframes with symmetric pixel offsets for left & right sides
   const timePoints: number[] = [0];
@@ -143,7 +144,7 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
       </div>
 
       {/* The single sticky, scroll-driven traveling logo tile (scoped to the entire showcase) */}
-      <div className="hidden md:block absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none">
         <div className="sticky top-1/2 -translate-y-1/2 flex justify-center items-center">
           <motion.div
             initial={{ opacity: 0 }}
@@ -159,7 +160,7 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
               transformStyle: 'preserve-3d',
               width: logoWidth,
             }}
-            className="aspect-[1132/517] z-20 relative"
+            className="aspect-[1132/517] z-0 md:z-20 relative opacity-50 md:opacity-100"
           >
             {/* Floating green dot */}
             <motion.span
@@ -184,19 +185,8 @@ export const LogoScrollShowcase: React.FC<LogoScrollShowcaseProps> = ({
       {/* HERO: Big Centered 3D Logo + Headline */}
       <div ref={heroRef} className="min-h-screen flex flex-col items-center justify-center gap-10 py-24 px-6 text-center relative">
 
-        {/* Placeholder for the sticky traveling logo to occupy while at the top (desktop only) */}
-        <div className="hidden md:block w-full max-w-[520px] h-[238px] pointer-events-none" />
-
-        {/* Static logo mark for mobile, where the traveling sticky logo is disabled */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="md:hidden relative w-full max-w-[280px]"
-        >
-          <div className="hero-logo-shadow" />
-          <LogoPlate variant="wide" glow={true} className="w-full h-full" />
-        </motion.div>
+        {/* Placeholder for the sticky traveling logo to occupy while at the top */}
+        <div className="w-full max-w-[520px] h-[238px] pointer-events-none" />
 
         <motion.div
           initial={{ opacity: 0, y: -10 }}
